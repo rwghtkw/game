@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/Texture">
+        <file>Texture/tank.png</file>
+        <file>Texture/block.png</file>
+    </qresource>
+    <qresource prefix="/Sounds">
+        <file>Sounds/bullet.wav</file>
+    </qresource>
+</RCC>

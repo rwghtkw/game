@@ -1,23 +1,18 @@
-#include <Bullet.h>
+#include <bullet.h>
 #include <QTimer>
-#include <QDebug>
 #include <QGraphicsScene>
-
 #include <QList>
-#include <Enemy.h>
-#include <MyRect.h>
-
+#include <player.h>
 #include <typeinfo>
+#include "enemy.h"
 
 
+Bullet::Bullet(int direction, int whoIs){
 
-Bullet::Bullet(int direction){
     setRect(0,0,5,5);
 
-    setBrush(Qt::green);
-
        bulletsound = new QMediaPlayer();
-       bulletsound->setMedia(QUrl("qrc:/sounds/bullet.wav"));
+       bulletsound->setMedia(QUrl("qrc:/Sounds/Sounds/bullet.wav"));
        bulletsound->setVolume(50);
        if(bulletsound->state()==QMediaPlayer::PlayingState)
        {
@@ -28,144 +23,102 @@ Bullet::Bullet(int direction){
            bulletsound->play();
        }
 
-
+    direct = direction;
+    whoIsFire = whoIs;
 
     QTimer * timer = new QTimer();
 
-    switch (direction)
-    {
-       case 0:
-       {
-       connect(timer,SIGNAL(timeout()),this, SLOT(move0()));
-       break;
-       }
-       case 1:
-       {
-      connect(timer,SIGNAL(timeout()),this, SLOT(move1()));
-      break;
-       }
-       case 2:
-       {
-      connect(timer,SIGNAL(timeout()),this, SLOT(move2()));
-      break;
-       }
-       case 3:
-       {
-      connect(timer,SIGNAL(timeout()),this, SLOT(move3()));
-      break;
-       }
-       default:
-       qDebug() << "ошибка";
-       }
+    connect(timer,SIGNAL(timeout()),this, SLOT(moveItem()));
 
+    timer->start(10);
 
-
-    timer->start(20);
+    this->setBrush(Qt::white);
 
 }
 
 
 
-void Bullet::move0()
+void Bullet::moveItem()
 {
 
     QList<QGraphicsItem *> items = collidingItems();
+
     for(int i = 0, n = items.size();i < n;++i)
     {
-        if ((typeid(*(items[i])) == typeid(MyRect)) ||  (typeid(*(items[i])) == typeid(Enemy)))
+        if ((typeid(*(items[i])) == typeid(Player) && whoIsFire!=0) /*||  (typeid(*(items[i])) == typeid(Enemy))*/)
         {
             scene()->removeItem(items[i]);
             scene()->removeItem(this);
             delete items[i];
             delete this;
-
             return;
         }
-    }
 
-    setPos(x(),y()-15);
-    if(pos().y()+rect().height()<0)
-    {
-        scene()->removeItem(this);
-        delete this;
-        qDebug() << "Пуля удалена";
-    }
-}
-
-void Bullet::move1()
-{
-
-    QList<QGraphicsItem *> items = collidingItems();
-    for(int i = 0, n = items.size();i < n;++i)
-    {
-        if ((typeid(*(items[i])) == typeid(MyRect)) ||  (typeid(*(items[i])) == typeid(Enemy)))
+        if ((typeid(*(items[i])) == typeid(Enemy) && whoIsFire!=1) /*||  (typeid(*(items[i])) == typeid(Enemy))*/)
         {
             scene()->removeItem(items[i]);
             scene()->removeItem(this);
             delete items[i];
             delete this;
-
             return;
         }
     }
 
-    setPos(x()+15,y());
-    if(pos().x()>800)
+    switch(direct)
     {
-        scene()->removeItem(this);
-        delete this;
-        qDebug() << "Пуля удалена";
-    }
+    case 0: {
 
-}
-void Bullet::move2(){
-
-    QList<QGraphicsItem *> items = collidingItems();
-    for(int i = 0, n = items.size();i < n;++i)
-    {
-        if ((typeid(*(items[i])) == typeid(MyRect)) ||  (typeid(*(items[i])) == typeid(Enemy)))
+        setPos(x(),y()-2);
+        if(pos().y()+rect().height()<0)
         {
-            scene()->removeItem(items[i]);
             scene()->removeItem(this);
-            delete items[i];
             delete this;
-
-            return;
+            qDebug() << "Пуля удалена";
         }
+        break;
     }
 
-    setPos(x(),y()+15);
-    if(pos().y()>600)
-    {
-        scene()->removeItem(this);
-        delete this;
-        qDebug() << "Пуля удалена";
-    }
-}
+    case 1: {
 
-void Bullet::move3()
-{
-
-    QList<QGraphicsItem *> items = collidingItems();
-    for(int i = 0, n = items.size();i < n;++i)
-    {
-        if ((typeid(*(items[i])) == typeid(MyRect)) ||  (typeid(*(items[i])) == typeid(Enemy)))
+        setPos(x()+2,y());
+        if(pos().x()>800)
         {
-            scene()->removeItem(items[i]);
             scene()->removeItem(this);
-            delete items[i];
             delete this;
-
-            return;
+            qDebug() << "Пуля удалена";
         }
+        break;
+    }
+
+    case 2: {
+
+        setPos(x(),y()+2);
+        if(pos().y()>600)
+        {
+            scene()->removeItem(this);
+            delete this;
+            qDebug() << "Пуля удалена";
+        }
+
+        break;
+    }
+
+    case 3: {
+
+        setPos(x()-2,y());
+        if(pos().x()+rect().width()<0)
+        {
+            scene()->removeItem(this);
+            delete this;
+            qDebug() << "Пуля удалена";
+        }
+
+        break;
+    }
+
+    default: break;
+
     }
 
 
-    setPos(x()-15,y());
-    if(pos().x()+rect().width()<0)
-    {
-        scene()->removeItem(this);
-        delete this;
-        qDebug() << "Пуля удалена";
-    }
 }
