@@ -5,11 +5,12 @@
 #include <player.h>
 #include <typeinfo>
 #include "enemy.h"
+#include "block.h"
 
 
 Bullet::Bullet(int direction, int whoIs){
 
-    setRect(0,0,5,5);
+       setRect(0,0,5,5);
 
        bulletsound = new QMediaPlayer();
        bulletsound->setMedia(QUrl("qrc:/Sounds/Sounds/bullet.wav"));
@@ -45,7 +46,7 @@ void Bullet::moveItem()
 
     for(int i = 0, n = items.size();i < n;++i)
     {
-        if ((typeid(*(items[i])) == typeid(Player) && whoIsFire!=0) /*||  (typeid(*(items[i])) == typeid(Enemy))*/)
+        if ((typeid(*(items[i])) == typeid(Player) && whoIsFire!=0))
         {
             scene()->removeItem(items[i]);
             scene()->removeItem(this);
@@ -54,11 +55,18 @@ void Bullet::moveItem()
             return;
         }
 
-        if ((typeid(*(items[i])) == typeid(Enemy) && whoIsFire!=1) /*||  (typeid(*(items[i])) == typeid(Enemy))*/)
+        if ((typeid(*(items[i])) == typeid(Enemy) && whoIsFire!=1))
         {
             scene()->removeItem(items[i]);
             scene()->removeItem(this);
             delete items[i];
+            delete this;
+            return;
+        }
+
+        if ((typeid(*(items[i])) == typeid(Block)) )
+        {
+            scene()->removeItem(this);
             delete this;
             return;
         }
@@ -116,7 +124,10 @@ void Bullet::moveItem()
         break;
     }
 
-    default: break;
+    default:
+    {
+         break;
+    }
 
     }
 

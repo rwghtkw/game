@@ -2,7 +2,7 @@
 #include "player.h"
 #include "block.h"
 #include "enemy.h"
-#include <QGraphicsScene>
+#include <QDebug>
 
 Levels::Levels()
 {
@@ -14,31 +14,16 @@ Levels::~Levels()
 
 }
 
-void Levels::curLevel(int level)
+void Levels::curLevel(int level, QGraphicsScene *cur_scene)
 {
 
-    Player *MyPlayer = new Player();
-    MyPlayer->setPixmap(QPixmap(":/Texture/Texture/tank.png"));
-    MyPlayer->setPos(300,300);
-    MyPlayer->setFlag(QGraphicsItem::ItemIsFocusable);
-    MyPlayer->setFocus();
+    Player *player = new Player(cur_scene,":/Texture/Texture/tank.png",100,100);
 
+    Enemy *en = new Enemy(cur_scene,":/Texture/Texture/tank.png",150,150);
 
-    Enemy *en = new Enemy();
-    en->setPixmap(QPixmap(":/Texture/Texture/tank.png"));
-    en->setPos(300,100);
+    Block * bl1 = new Block(cur_scene,":/Texture/Texture/block.png",200,200);
+    Block * bl2 = new Block(cur_scene,":/Texture/Texture/block.png",300,300);
+    Block * bl3 = new Block(cur_scene,":/Texture/Texture/block.png",400,400);
 
-    Block * bl = new Block(200,200);
-    Block * bl2 = new Block(300,200);
-    Block * bl3 = new Block(400,200);
-    bl->setPixmap(QPixmap(":/Texture/Texture/block.png"));
-    bl2->setPixmap(QPixmap(":/Texture/Texture/block.png"));
-    bl3->setPixmap(QPixmap(":/Texture/Texture/block.png"));
-
-    scene()->addItem(bl);
-    scene()->addItem(bl2);
-    scene()->addItem(bl3);
-    scene()->addItem(MyPlayer);
-    scene()->addItem(en);
 }
 

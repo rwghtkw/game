@@ -4,18 +4,18 @@
 #include <QObject>
 #include <QGraphicsPixmapItem>
 #include <QVector>
-#include <QGraphicsItem>
-#include "block.h"
-#include <typeinfo>
 #include <QGraphicsScene>
 #include <QTimer>
 
 class Player : public QObject , public QGraphicsPixmapItem
 {
     Q_OBJECT
+
 public:
-     Player();
+     Player(QGraphicsScene * scene, QString path_texture, float x, float y);
     ~Player();
+
+     QGraphicsScene * cur_scene;
 
      bool pressKey[4]; //нажаты несколько клавиш или нет
      QVector<int> priorityMotion; // приоритеты нажатия клавиш

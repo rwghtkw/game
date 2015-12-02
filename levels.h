@@ -3,17 +3,16 @@
 
 
 #include <QObject>
-#include <QGraphicsRectItem>
+#include <QGraphicsScene>
 
 
-class Levels:public QObject, public  QGraphicsRectItem{
-    Q_OBJECT
+class Levels{
 
 public:
     Levels();
     ~Levels();
 
-    void curLevel(int level);
+    void curLevel(int level, QGraphicsScene *cur_scene);
 };
 
 #endif // LEVELS_H

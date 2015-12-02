@@ -2,10 +2,19 @@
 #include <QKeyEvent>
 #include <QDebug>
 #include <bullet.h>
+#include "block.h"
+#include <typeinfo>
+#include "enemy.h"
 
-
-Player::Player()
+Player::Player(QGraphicsScene *scene, QString path_texture, float x, float y)
 {
+    cur_scene = scene;
+    scene->addItem(this);
+    setPixmap(QPixmap(path_texture));
+    setPos(x,y);
+    setFlag(QGraphicsItem::ItemIsFocusable);
+    setFocus();
+
     QTimer * timer = new QTimer();
     connect(timer,SIGNAL(timeout()),this,SLOT(motionPl()));
     timer->start(10);
@@ -31,7 +40,7 @@ Player::~Player()
 void Player::motionPl()
 {
 
-    QList<QGraphicsItem *> founditems = scene()->items(QPolygonF()
+    QList<QGraphicsItem *> founditems = cur_scene->items(QPolygonF()
                                                        <<mapToScene(+1,0)
                                                        <<mapToScene(+1,0)
                                                        <<mapToScene(+39,0)
@@ -41,7 +50,7 @@ void Player::motionPl()
 
     //проверка на столкновение с блоками
     for(int i = 0, n = founditems.size();i < n;++i)
-        if (typeid(*(founditems[i])) == typeid(Block) )
+        if (typeid(*(founditems[i])) == typeid(Block) || typeid(*(founditems[i])) == typeid(Enemy) )
         {
             flag = true;
             qDebug() << "Блок впереди";

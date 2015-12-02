@@ -2,13 +2,14 @@
 #define BLOCK_H
 
 #include <QGraphicsPixmapItem>
+#include <QGraphicsScene>
 
 
 class Block: public  QGraphicsPixmapItem
 {
 
 public:
-     Block(int x,int y);
+     Block(QGraphicsScene * scene,QString path_texture,int x,int y);
     ~Block();
 };
 
