@@ -2,6 +2,7 @@
     <qresource prefix="/Texture">
         <file>Texture/tank.png</file>
         <file>Texture/block.png</file>
+        <file>Texture/enemy.png</file>
     </qresource>
     <qresource prefix="/Sounds">
         <file>Sounds/bullet.wav</file>

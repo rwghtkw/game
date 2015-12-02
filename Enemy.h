@@ -13,12 +13,13 @@ public:
     ~Enemy();
 
     QGraphicsScene * cur_scene;
+    int direction;
 
 signals:
 
 public slots:
 
-    void move();
+    void easy_ii();
 };
 
 #endif // ENEMY_H

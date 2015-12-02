@@ -5,7 +5,7 @@ mainView::mainView(QGraphicsView *parent)
     : QGraphicsView(parent)
 {
     scene = new QGraphicsScene();
-   //scene->setBackgroundBrush(Qt::black);
+    scene->setBackgroundBrush(Qt::black);
     this->setScene(scene);
 
     this->setRenderHint(QPainter::Antialiasing);
